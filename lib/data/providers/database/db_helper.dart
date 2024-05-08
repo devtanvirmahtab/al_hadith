@@ -20,8 +20,6 @@ class DataBaseHelper {
     bool dbExists = await io.File(dbPath).exists();
 
     if (!dbExists) {
-      // Copy from asset
-      // please add hadith_bn_test.db file to assets folder then run ther project
       ByteData data = await rootBundle.load(path.join("assets/db", "hadith_db.db"));
       List<int> bytes =
       data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
@@ -51,7 +49,6 @@ class DataBaseHelper {
      Database db = await initDB();
      final sectionModel = await db.rawQuery('''SELECT * FROM section WHERE chapter_id like "%$chapterId%" ''');
      List<SectionModel> sectionList =  sectionModel.map((e) => SectionModel.fromMap(e)).toList();
-     print("${sectionList[0].title}");
      return sectionList;
    }
 
@@ -60,27 +57,7 @@ class DataBaseHelper {
      Database db = await initDB();
      final hadithModel = await db.rawQuery('''SELECT * FROM hadith WHERE chapter_id like "%$chapterId%" ''');
      List<HadithModel> hadithList =  hadithModel.map((e) => HadithModel.fromMap(e)).toList();
-     print("${hadithList[0].narrator}");
      return hadithList;
    }
 
-  /// get all the words from english dictionary
-  // Future<List<EnglishWord>> getAllTheWordsEnglish() async {
-  //   if (_db == null) {
-  //     throw "bd is not initiated, initiate using [init(db)] function";
-  //   }
-  //   List<Map> words;
-  //
-  //   await _db.transaction((txn) async {
-  //     words = await txn.query(
-  //       "words",
-  //       columns: [
-  //         "en_word",
-  //         "en_definition",
-  //       ],
-  //     );
-  //   });
-  //
-  //   return words.map((e) => EnglishWord.fromJson(e)).toList();
-  // }
 }
